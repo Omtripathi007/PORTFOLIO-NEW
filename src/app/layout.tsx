@@ -43,7 +43,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Om Tripathi" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   openGraph: {
     title: "Om Tripathi — Creative Developer",
