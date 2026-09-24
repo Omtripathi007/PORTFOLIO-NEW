@@ -4,19 +4,22 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import { DistortText } from '@/components/ui/distort-text';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const contactLinks = [
-  { label: 'Email Me', value: 'craftedbywaqas@gmail.com', href: 'mailto:craftedbywaqas@gmail.com' },
-  { label: 'Connect', value: 'LinkedIn', href: '#' },
-  { label: 'Read In', value: 'Substack / Medium', href: '#' },
+  { label: 'Email Me', value: 'om22092006@gmail.com', href: 'mailto:om22092006@gmail.com' },
+  { label: 'Connect', value: 'LinkedIn', href: 'https://www.linkedin.com/in/om-tripathi-155b24380/' },
+  { label: 'Read In', value: 'Github', href: 'https://github.com/Omtripathi007' },
 ];
 
 export default function Contact() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
@@ -75,10 +78,37 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    if (submitting) return;
+    setSubmitting(true);
+
+    try {
+      const googleFormUrl =
+        'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdOWbCmwkKHzFgp9lHDaQZEYrl-OZyXvj636iAJzbd6uzVrFA/formResponse';
+
+      const data = new FormData();
+      data.append('entry.739597866', formData.name);
+      data.append('entry.1182683942', formData.email);
+      data.append('entry.707218801', formData.message);
+
+      await fetch(googleFormUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: data,
+      });
+
+      setSent(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSent(false), 5000);
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setSent(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSent(false), 5000);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -90,15 +120,16 @@ export default function Contact() {
       {/* Big backdrop title */}
       <div className="relative -mx-5 md:-mx-10 mb-16 md:mb-20">
         <div
-          className="contact-bg-title text-center pointer-events-none"
+          className="contact-bg-title text-center pointer-events-auto"
           aria-hidden
         >
-          <h2
-            className="font-display uppercase text-white/[0.05] leading-none select-none"
+          <DistortText
+            text="CONTACT"
+            as="h2"
+            strength={1.2}
+            className="font-display uppercase text-white/[0.05] hover:text-white/[0.1] transition-colors leading-none select-none justify-center cursor-default"
             style={{ fontSize: 'clamp(8rem, 28vw, 24rem)' }}
-          >
-            CONTACT
-          </h2>
+          />
         </div>
       </div>
 
@@ -122,8 +153,8 @@ export default function Contact() {
               className="contact-headline font-display uppercase text-white leading-[0.95] text-balance"
               style={{ fontSize: 'clamp(2rem, 6vw, 5rem)' }}
             >
-              Let&apos;s create something{' '}
-              <span className="text-lime">meaningful.</span>
+              <DistortText text="Let's create something" strength={0.7} />{' '}
+              <span className="text-lime"><DistortText text="meaningful." strength={0.7} /></span>
             </h2>
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-white/60 max-w-xl">
@@ -176,7 +207,10 @@ export default function Contact() {
                 </label>
                 <input
                   type="text"
+                  name="entry.739597866"
                   required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Your name"
                   className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-lime/50 focus:bg-white/[0.05] transition-all"
                 />
@@ -188,7 +222,10 @@ export default function Contact() {
                 </label>
                 <input
                   type="email"
+                  name="entry.1182683942"
                   required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="you@email.com"
                   className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-lime/50 focus:bg-white/[0.05] transition-all"
                 />
@@ -199,8 +236,11 @@ export default function Contact() {
                   Message
                 </label>
                 <textarea
+                  name="entry.707218801"
                   required
                   rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell me about your project..."
                   className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-lime/50 focus:bg-white/[0.05] transition-all resize-none"
                 />
@@ -209,9 +249,16 @@ export default function Contact() {
               <div className="form-field pt-2">
                 <button
                   type="submit"
-                  className="group w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-lime text-[#0a0a0a] font-semibold text-sm tracking-wide uppercase hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  disabled={submitting}
+                  className="group w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-lime text-[#0a0a0a] font-semibold text-sm tracking-wide uppercase hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none transition-all cursor-pointer"
                 >
-                  <span>{sent ? 'Message Sent!' : 'Send Message'}</span>
+                  <span>
+                    {submitting
+                      ? 'Sending...'
+                      : sent
+                      ? 'Message Sent Successfully!'
+                      : 'Send Message'}
+                  </span>
                   <span className="inline-block transition-transform group-hover:translate-x-1.5">
                     {sent ? '✓' : '→'}
                   </span>

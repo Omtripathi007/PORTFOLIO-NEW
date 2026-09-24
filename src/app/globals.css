@@ -312,9 +312,12 @@
     }
   }
 
-  /* Scroll-down chevron */
+  /* Scroll-down mouse dot */
   .scroll-bounce {
     animation: scrollBounce 2s ease-in-out infinite;
+  }
+  .scroll-dot {
+    animation: scrollDot 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
   @keyframes scrollBounce {
     0%,
@@ -324,6 +327,27 @@
     }
     50% {
       transform: translateY(8px);
+      opacity: 1;
+    }
+  }
+  @keyframes scrollDot {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(14px);
+      opacity: 0.15;
+    }
+    61% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
       opacity: 1;
     }
   }

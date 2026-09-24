@@ -4,13 +4,15 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { DistortText } from '@/components/ui/distort-text';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const stats = [
-  { label: 'LOCATION', value: 'BASED IN PAKISTAN' },
+  { label: 'LOCATION', value: 'BASED IN INDIA' },
   { label: 'AVAILABILITY', value: 'ALWAYS AVAILABLE' },
   { label: 'EXPERTISE', value: 'FULL STACK CREATIVE' },
   { label: 'EXPERIENCE', value: '1+ YEAR' },
@@ -102,99 +104,28 @@ export default function About() {
           className="about-headline font-display uppercase text-white text-balance max-w-5xl leading-[0.95]"
           style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)' }}
         >
-          I Build Digital Worlds Where{' '}
-          <span className="text-lime">Design</span> Meets{' '}
-          <span className="text-lime">Code</span>.
+          <DistortText text="I Build Digital Worlds Where" strength={0.7} />{' '}
+          <span className="text-lime"><DistortText text="Design" strength={0.7} /></span>{' '}
+          <DistortText text="Meets" strength={0.7} />{' '}
+          <span className="text-lime"><DistortText text="Code" strength={0.7} /></span>
+          <DistortText text="." strength={0.7} />
         </h2>
 
         {/* Two-column grid */}
         <div className="mt-14 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Portrait */}
           <div className="about-portrait lg:col-span-5">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl card-surface group">
-              {/* SVG portrait stylized silhouette */}
-              <svg
-                viewBox="0 0 400 500"
-                className="w-full h-full"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1a1a1a" />
-                    <stop offset="100%" stopColor="#0a0a0a" />
-                  </linearGradient>
-                  <radialGradient id="spot" cx="50%" cy="35%" r="60%">
-                    <stop offset="0%" stopColor="#d4ff00" stopOpacity="0.18" />
-                    <stop offset="100%" stopColor="#d4ff00" stopOpacity="0" />
-                  </radialGradient>
-                  <linearGradient id="silhouette" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#2a2a2a" />
-                    <stop offset="100%" stopColor="#0d0d0d" />
-                  </linearGradient>
-                </defs>
-
-                <rect width="400" height="500" fill="url(#bg)" />
-                <rect width="400" height="500" fill="url(#spot)" />
-
-                {/* Head */}
-                <ellipse
-                  cx="200"
-                  cy="170"
-                  rx="78"
-                  ry="92"
-                  fill="url(#silhouette)"
-                />
-                {/* Neck */}
-                <rect x="180" y="245" width="40" height="42" fill="url(#silhouette)" />
-                {/* Shoulders */}
-                <path
-                  d="M 90 500 Q 90 330 200 320 Q 310 330 310 500 Z"
-                  fill="url(#silhouette)"
-                />
-                {/* Rim light */}
-                <path
-                  d="M 200 78 Q 270 90 278 170 Q 282 240 250 280"
-                  stroke="#d4ff00"
-                  strokeWidth="1.2"
-                  fill="none"
-                  opacity="0.45"
-                />
-
-                {/* Subtle grid overlay */}
-                {[...Array(8)].map((_, i) => (
-                  <line
-                    key={`h-${i}`}
-                    x1="0"
-                    y1={i * 62.5}
-                    x2="400"
-                    y2={i * 62.5}
-                    stroke="white"
-                    strokeOpacity="0.04"
-                  />
-                ))}
-                {[...Array(8)].map((_, i) => (
-                  <line
-                    key={`v-${i}`}
-                    x1={i * 50}
-                    y1="0"
-                    x2={i * 50}
-                    y2="500"
-                    stroke="white"
-                    strokeOpacity="0.04"
-                  />
-                ))}
-              </svg>
-
-              {/* Floating labels */}
-              <div className="absolute top-5 left-5 px-2.5 py-1 rounded-full border border-white/10 bg-black/40 backdrop-blur text-[10px] uppercase tracking-[0.3em] text-white/70">
-                Waqas Bhatti
-              </div>
-              <div className="absolute bottom-5 right-5 px-2.5 py-1 rounded-full border border-lime/40 bg-lime/5 backdrop-blur text-[10px] uppercase tracking-[0.3em] text-lime">
-                Creative Dev
-              </div>
-              {/* Decorative corner */}
-              <div className="absolute top-4 right-4 w-3 h-3 border-t border-r border-lime/60" />
-              <div className="absolute bottom-4 left-4 w-3 h-3 border-b border-l border-lime/60" />
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl card-surface group border border-white/10 hover:border-lime/40 transition-all duration-500 shadow-2xl">
+              <Image
+                src="/images/om-portrait.jpg"
+                alt="Om Tripathi - Creative Developer"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              {/* Subtle ambient overlay & glow */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-30 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
             </div>
           </div>
 
@@ -202,16 +133,12 @@ export default function About() {
           <div className="lg:col-span-7 flex flex-col gap-8">
             <div className="space-y-6">
               <p className="about-paragraph text-base md:text-lg leading-relaxed text-white/80">
-                I&apos;m Waqas — a Creative Developer who enjoys turning ideas
-                into interactive digital experiences. I focus on creative
-                coding, UI/UX design, motion design, and building web
-                experiences that people remember.
+                I&apos;m Om — a Creative Developer and Innovation Builder who enjoys turning ideas into meaningful digital experiences and experimental technologies. I explore creative coding, UI/UX, AI implementation, and new ways of designing digital systems — from centralized platforms to decentralized and offline-first architectures.
+
               </p>
               <p className="about-paragraph text-base md:text-lg leading-relaxed text-white/60">
-                I care about the details most people skip — like smooth
-                animations, clean typography, and fine-tuned micro-interactions.
-                The goal is to craft websites that don&apos;t just work, but
-                make you pause and take them in.
+                I care about the details most people skip — from thoughtful interfaces and smooth interactions to the architecture that powers an experience behind the scenes. Whether it's integrating AI, designing decentralized systems, or building solutions that work even without constant connectivity, my goal is to create technology that feels intuitive, purposeful, and a little ahead of its time.
+
               </p>
             </div>
 

@@ -4,77 +4,12 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import { DistortChar, DistortText } from '@/components/ui/distort-text';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const CREATIVE_LETTERS = 'CREATIVE'.split('');
-
-interface DistortCharProps {
-  char: string;
-  index: number;
-}
-
-function DistortChar({ char, index }: DistortCharProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const handleMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / rect.width;
-      const dy = (e.clientY - cy) / rect.height;
-
-      gsap.to(el, {
-        x: dx * 24,
-        y: dy * 18,
-        rotateX: dx * 14,
-        rotateY: dy * -10,
-        skewX: dx * 6,
-        scale: 1.05,
-        duration: 0.5,
-        ease: 'power3.out',
-      });
-    };
-
-    const handleLeave = () => {
-      gsap.to(el, {
-        x: 0,
-        y: 0,
-        rotateX: 0,
-        rotateY: 0,
-        skewX: 0,
-        scale: 1,
-        duration: 0.6,
-        ease: 'elastic.out(1, 0.45)',
-      });
-    };
-
-    el.addEventListener('mousemove', handleMove);
-    el.addEventListener('mouseleave', handleLeave);
-
-    return () => {
-      el.removeEventListener('mousemove', handleMove);
-      el.removeEventListener('mouseleave', handleLeave);
-    };
-  }, []);
-
-  return (
-    <span
-      ref={ref}
-      data-char={char}
-      style={{ display: 'inline-block', transformStyle: 'preserve-3d' }}
-      className="relative will-change-transform"
-    >
-      {char}
-    </span>
-  );
-}
 
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -122,7 +57,7 @@ export default function Hero() {
         delay: 1.2,
       });
 
-      // Subtle parallax on scroll
+      // Subtle parallax on scroll for background
       gsap.to('.hero-parallax', {
         yPercent: -18,
         ease: 'none',
@@ -130,18 +65,6 @@ export default function Hero() {
           trigger: rootRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: true,
-        },
-      });
-
-      gsap.to('.hero-fade', {
-        opacity: 0,
-        yPercent: -20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: 'top top',
-          end: '60% top',
           scrub: true,
         },
       });
@@ -176,16 +99,18 @@ export default function Hero() {
       </div>
 
       {/* Small section label */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-        className="hero-fade absolute top-24 md:top-32 left-1/2 -translate-x-1/2 flex items-center gap-3 text-[10px] md:text-xs uppercase tracking-[0.35em] text-white/50"
-      >
-        <span className="w-8 h-px bg-white/30" />
-        Portfolio · 2025
-        <span className="w-8 h-px bg-white/30" />
-      </motion.div>
+      <div className="absolute top-24 md:top-32 left-0 right-0 w-full flex justify-center pointer-events-none z-20">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="pointer-events-auto flex items-center gap-4 text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-white/50"
+        >
+          <span className="w-12 md:w-20 h-px bg-white/25" />
+          <DistortText text="Money Follows !!" strength={0.4} />
+          <span className="w-12 md:w-20 h-px bg-white/25" />
+        </motion.div>
+      </div>
 
       {/* Massive headline */}
       <div className="relative z-10 px-4 md:px-8 w-full max-w-[1600px] flex flex-col items-center text-center">
@@ -199,23 +124,22 @@ export default function Hero() {
             }}
           >
             <span className="inline-flex flex-wrap justify-center gap-x-[0.04em]">
-              {CREATIVE_LETTERS.map((c, i) => (
-                <DistortChar key={i} char={c} index={i} />
+              {'CREATIVE'.split('').map((c, i) => (
+                <DistortChar key={i} char={c} />
               ))}
             </span>
           </h1>
         </div>
 
         <div className="overflow-hidden mt-1 md:mt-3">
-          <span
-            className="hero-dev font-display uppercase leading-[0.85] text-white block"
-            style={{ fontSize: 'clamp(3.2rem, 13vw, 12rem)' }}
-          >
-            Developer
-          </span>
+          <DistortText
+            text="Developer"
+            as="span"
+            className="hero-dev font-display uppercase leading-[0.85] text-white"
+            style={{ fontSize: 'clamp(3.2rem, 13vw, 12rem)', display: 'flex', justifyContent: 'center' }}
+          />
         </div>
 
-        {/* Sub-labels */}
         <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-5">
           {['VISUALS', 'CODE', 'EXPERIENCE'].map((label, idx) => (
             <span
@@ -223,26 +147,29 @@ export default function Hero() {
               className={`hero-sub flex items-center gap-3 md:gap-5 text-xs md:text-sm tracking-[0.3em] uppercase text-white/60`}
             >
               {idx > 0 && <span className="w-1.5 h-1.5 rounded-full bg-lime" />}
-              {label}
+              <DistortText text={label} strength={0.5} />
             </span>
           ))}
         </div>
       </div>
 
       {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
-        className="hero-cue hero-fade absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] md:text-xs uppercase tracking-[0.35em] text-white/50">
-          Scroll to Explore
-        </span>
-        <div className="relative w-5 h-9 border border-white/30 rounded-full flex items-start justify-center pt-2">
-          <span className="scroll-bounce w-1 h-2 bg-lime rounded-full" />
-        </div>
-      </motion.div>
+      <div className="absolute bottom-8 md:bottom-12 left-0 right-0 w-full flex justify-center pointer-events-none z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="pointer-events-auto flex flex-col items-center gap-3"
+        >
+          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-white/50 font-light text-center">
+            <DistortText text="Scroll to Explore" strength={0.3} />
+          </span>
+          {/* Mouse icon */}
+          <div className="relative w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center pt-[5px] shadow-[0_0_15px_rgba(212,255,0,0.15)]">
+            <span className="scroll-dot w-[3px] h-[6px] bg-lime rounded-full" />
+          </div>
+        </motion.div>
+      </div>
 
       {/* Floating tech marquee at the very bottom */}
       <div className="absolute bottom-0 left-0 right-0 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-sm">

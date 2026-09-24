@@ -149,7 +149,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       {/* Subtle caption */}
       <div className="absolute top-[14vh] left-1/2 -translate-x-1/2 flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-[#888]">
         <span className="w-6 h-px bg-white/20" />
-        Waqas Bhatti
+        Om Tripathi
         <span className="w-6 h-px bg-white/20" />
       </div>
     </div>

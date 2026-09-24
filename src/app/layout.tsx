@@ -29,11 +29,11 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Waqas Bhatti — Creative Developer",
+  title: "Om Tripathi — Creative Developer",
   description:
-    "Waqas Bhatti is a creative developer building high-end, motion-heavy digital experiences where design meets code.",
+    "Om Tripathi is a creative developer building high-end, motion-heavy digital experiences where design meets code.",
   keywords: [
-    "Waqas Bhatti",
+    "Om Tripathi",
     "Creative Developer",
     "Portfolio",
     "React",
@@ -41,20 +41,20 @@ export const metadata: Metadata = {
     "GSAP",
     "Motion Design",
   ],
-  authors: [{ name: "Waqas Bhatti" }],
+  authors: [{ name: "Om Tripathi" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Waqas Bhatti — Creative Developer",
+    title: "Om Tripathi — Creative Developer",
     description:
       "Creative Developer building digital worlds where design meets code.",
-    siteName: "Waqas Bhatti",
+    siteName: "Om Tripathi",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Waqas Bhatti — Creative Developer",
+    title: "Om Tripathi — Creative Developer",
     description:
       "Creative Developer building digital worlds where design meets code.",
   },

@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { DistortText } from '@/components/ui/distort-text';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -12,56 +14,63 @@ if (typeof window !== 'undefined') {
 const projects = [
   {
     tag: '[ DATA - 01 ]',
-    title: 'Creative Portfolio',
+    title: 'Innovation',
+    image: '/images/projects/innovation.png',
     description:
-      'A modern digital portfolio designed for creative professionals. Focuses on minimal typography, smooth page transitions, and interactive visual elements.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
-    accent: '#d4ff00',
-    mockup: 'portfolio' as const,
+      'Beyond Imagination into Innovation — digital interactive platform and community hub for JIIT Noida.',
+    stack: ['REACT', 'NEXT.JS', 'TAILWIND', 'MOTION'],
+    accent: '#4f46e5',
+    link: 'https://www.innovationjiit.in',
   },
   {
     tag: '[ DATA - 02 ]',
-    title: 'E-commerce Website',
+    title: 'Aura Events',
+    image: '/images/projects/aura.png',
     description:
-      'A clean and modern e-commerce platform built for fashion brands. Brings products, style, and seamless commerce together.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
-    accent: '#f5f5f5',
-    mockup: 'gazu' as const,
+      'The premier event experience platform — discover and curate campus spectacles and registrations.',
+    stack: ['NEXT.JS', 'TYPESCRIPT', 'TAILWIND', 'UI/UX'],
+    accent: '#3b82f6',
+    link: 'https://aura-an-event-organizer.vercel.app',
   },
   {
     tag: '[ DATA - 03 ]',
-    title: 'Creative Clothing Website',
+    title: 'Synthflow',
+    image: '/images/projects/synthflow.png',
     description:
-      'A high-end digital shopping experience for modern fashion brands.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
+      'AI-Powered Hospital Workflow Optimization with real-time predictive forecasting and patient management.',
+    stack: ['AI / ML', 'NEXT.JS', 'DASHBOARD', 'TYPESCRIPT'],
     accent: '#d4ff00',
-    mockup: 'time' as const,
+    link: 'https://synthflow-phi.vercel.app',
   },
   {
     tag: '[ DATA - 04 ]',
-    title: 'Luxury Timepieces',
+    title: 'JPRINT',
+    image: '/images/projects/jprint.png',
     description:
-      'A premium digital showcase designed for luxury watches, highlighting craftsmanship and timeless elegance.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
-    accent: '#f5f5f5',
-    mockup: 'watches' as const,
+      'Print in Seconds — fast on-demand document printing, binding, and stationery system for students.',
+    stack: ['NEXT.JS', 'TYPESCRIPT', 'TAILWIND', 'AUTOMATION'],
+    accent: '#eab308',
+    link: 'https://github.com/Omtripathi007/JPRINT-',
   },
   {
     tag: '[ DATA - 05 ]',
-    title: 'Premium Headphones',
-    description: 'Crafted for Focus. Designed for Life.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
-    accent: '#d4ff00',
-    mockup: 'headphones' as const,
+    title: 'RuralBazaar',
+    image: '/images/projects/rural-bazaar.png',
+    description:
+      'AI-Powered Rural Commerce — just speak, we handle the selling. Empowering rural artisans with multi-language voice AI.',
+    stack: ['AI / ML', 'VOICE AI', 'NEXT.JS', 'ECOMMERCE'],
+    accent: '#8b5cf6',
+    link: 'https://github.com/Omtripathi007/RURAL-BAZAAR',
   },
   {
     tag: '[ DATA - 06 ]',
-    title: 'Library Management System',
+    title: 'GitHub & Experiments',
+    image: '/images/projects/github.png',
     description:
-      'A modern Library Management System designed to simplify book management, user records, and borrowing through a clean interface.',
-    stack: ['HTML', 'CSS', 'JAVASCRIPT', 'GSAP'],
-    accent: '#f5f5f5',
-    mockup: 'library' as const,
+      'Explore my open source repositories, experimental creative coding labs, AI tools, and full-stack projects on GitHub.',
+    stack: ['GITHUB', 'OPEN SOURCE', 'FULL STACK', 'CREATIVE LAB'],
+    accent: '#22c55e',
+    link: 'https://github.com/Omtripathi007',
   },
 ];
 
@@ -434,15 +443,16 @@ export default function Work() {
       <div className="relative mb-16 md:mb-20 -mx-5 md:-mx-10">
         {/* Big WORK word */}
         <div
-          className="work-title relative text-center pointer-events-none"
+          className="work-title relative text-center pointer-events-auto"
           aria-hidden
         >
-          <h2
-            className="font-display uppercase text-white/[0.04] leading-none select-none"
+          <DistortText
+            text="WORK"
+            as="h2"
+            strength={1.2}
+            className="font-display uppercase text-white/[0.04] hover:text-white/[0.09] transition-colors leading-none select-none justify-center cursor-default"
             style={{ fontSize: 'clamp(8rem, 32vw, 28rem)' }}
-          >
-            WORK
-          </h2>
+          />
         </div>
 
         {/* Floating skill marquee overlay */}
@@ -516,9 +526,12 @@ function ProjectCard({
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      className={`work-card group relative rounded-3xl overflow-hidden card-surface hover-lift hover:border-lime/30 ${
+    <motion.a
+      href={('link' in project && project.link) ? project.link : '#'}
+      target={('link' in project && project.link?.startsWith('http')) ? '_blank' : undefined}
+      rel={('link' in project && project.link?.startsWith('http')) ? 'noopener noreferrer' : undefined}
+      ref={cardRef as unknown as React.RefObject<HTMLAnchorElement>}
+      className={`work-card group relative block rounded-3xl overflow-hidden card-surface hover-lift hover:border-lime/30 cursor-pointer ${
         idx % 3 === 0 ? 'md:col-span-2' : ''
       }`}
       onMouseMove={handleMove}
@@ -527,7 +540,7 @@ function ProjectCard({
     >
       {/* Image preview */}
       <div
-        className={`relative overflow-hidden ${
+        className={`relative overflow-hidden bg-black/40 ${
           idx % 3 === 0 ? 'aspect-[16/8] md:aspect-[16/7]' : 'aspect-[16/10]'
         }`}
       >
@@ -536,12 +549,22 @@ function ProjectCard({
           className="absolute inset-0"
           style={{ transition: 'transform 0.5s ease' }}
         >
-          <Mockup kind={project.mockup} accent={project.accent} />
+          {('image' in project && project.image) ? (
+            <Image
+              src={project.image as string}
+              alt={project.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+              className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          ) : (
+            <Mockup kind={project.mockup} accent={project.accent} />
+          )}
         </div>
         {/* Dark overlay lift on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-30 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
         {/* Top row */}
-        <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
           <span className="px-2.5 py-1 rounded-full border border-white/15 bg-black/40 backdrop-blur text-[10px] uppercase tracking-[0.25em] text-white/70">
             {project.tag}
           </span>
@@ -558,7 +581,7 @@ function ProjectCard({
             className="font-syne font-bold uppercase tracking-tight text-white"
             style={{ fontSize: 'clamp(1.4rem, 2.4vw, 2rem)' }}
           >
-            {project.title}
+            <DistortText text={project.title} strength={0.6} />
           </h3>
           <div className="w-10 h-10 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-white/60 group-hover:text-lime group-hover:border-lime/40 transition-all">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -580,6 +603,6 @@ function ProjectCard({
           ))}
         </div>
       </div>
-    </motion.div>
+    </motion.a>
   );
 }

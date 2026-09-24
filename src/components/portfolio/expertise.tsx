@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
+import { DistortText } from '@/components/ui/distort-text';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -38,14 +39,14 @@ const expertise = [
   },
   {
     no: '03',
-    title: 'UI / UX Design',
+    title: 'Creative Architecture',
     description:
-      'Designing intuitive interfaces with strong hierarchy, clean aesthetics, and user-centered flows.',
+      'Architecting intelligent, borderless digital products — from AI-driven interfaces and multilingual experiences to decentralized systems and offline-first payment flows.',
     techs: [
-      { label: 'Figma', x: '10%', y: '20%', cls: 'float-med' },
-      { label: 'Hierarchy', x: '78%', y: '10%', cls: 'float-slow' },
-      { label: 'Aesthetic', x: '80%', y: '70%', cls: 'float-fast' },
-      { label: 'Wireframe', x: '12%', y: '78%', cls: 'float-med' },
+      { label: 'Offline Payment', x: '6%', y: '18%', cls: 'float-med' },
+      { label: 'Decentralized', x: '68%', y: '10%', cls: 'float-slow' },
+      { label: 'Multilingual', x: '78%', y: '68%', cls: 'float-fast' },
+      { label: 'AI', x: '14%', y: '75%', cls: 'float-med' },
     ] as Tech[],
   },
   {
@@ -133,8 +134,9 @@ export default function Expertise() {
             className="expertise-title font-display uppercase text-white leading-[0.95] lg:col-span-7"
             style={{ fontSize: 'clamp(2rem, 5.5vw, 4.5rem)' }}
           >
-            Where Design, Code and{' '}
-            <span className="text-lime">Motion</span> Work as One.
+            <DistortText text="Where Design, Code and" strength={0.7} />{' '}
+            <span className="text-lime"><DistortText text="Motion" strength={0.7} /></span>{' '}
+            <DistortText text="Work as One." strength={0.7} />
           </h2>
           <div className="lg:col-span-5 lg:pt-4 space-y-4">
             <p className="text-base md:text-lg leading-relaxed text-white/80">
@@ -200,7 +202,7 @@ export default function Expertise() {
                 className="font-syne font-bold text-white uppercase tracking-tight mb-3"
                 style={{ fontSize: 'clamp(1.4rem, 2.4vw, 2rem)' }}
               >
-                {card.title}
+                <DistortText text={card.title} strength={0.6} />
               </h3>
 
               {/* Description */}

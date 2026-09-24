@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { DistortText } from '@/components/ui/distort-text';
 
 const navLinks = [
   { label: 'Work', href: '#work' },
@@ -56,12 +57,18 @@ export default function Navigation() {
           }}
           className="group flex items-center gap-2"
         >
-          <span className="font-display text-lg md:text-xl tracking-wide text-white">
-            WAQAS
-          </span>
-          <span className="font-display text-lg md:text-xl tracking-wide text-lime">
-            BHATTI
-          </span>
+          <DistortText
+            text="OM"
+            as="span"
+            className="font-display text-lg md:text-xl tracking-wide text-white"
+            strength={0.6}
+          />
+          <DistortText
+            text="TRIPATHI"
+            as="span"
+            className="font-display text-lg md:text-xl tracking-wide text-lime"
+            strength={0.6}
+          />
           <span className="hidden md:inline-block ml-1 w-2 h-2 bg-lime rounded-full group-hover:scale-150 transition-transform" />
         </a>
 
@@ -77,7 +84,7 @@ export default function Navigation() {
               }}
               className="nav-link text-[11px] tracking-[0.25em] uppercase text-white/70 hover:text-white transition-colors"
             >
-              {link.label}
+              <DistortText text={link.label} strength={0.4} />
             </a>
           ))}
         </nav>
@@ -86,7 +93,7 @@ export default function Navigation() {
         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03]">
           <span className="status-dot" />
           <span className="text-[10px] tracking-[0.25em] uppercase text-white/70">
-            Based in Pakistan
+            Based in India
           </span>
         </div>
 
@@ -131,13 +138,13 @@ export default function Navigation() {
               }}
               className="px-6 py-4 text-sm uppercase tracking-[0.25em] text-white/70 hover:text-white hover:bg-white/[0.04] transition-colors border-b border-white/5"
             >
-              {link.label}
+              <DistortText text={link.label} strength={0.3} />
             </a>
           ))}
           <div className="px-6 py-4 flex items-center gap-2">
             <span className="status-dot" />
             <span className="text-[10px] tracking-[0.25em] uppercase text-white/70">
-              Based in Pakistan
+              Based in India
             </span>
           </div>
         </nav>
