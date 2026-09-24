@@ -105,7 +105,7 @@ export default function About() {
           style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)' }}
         >
           <DistortText text="I Build Digital Worlds Where" strength={0.7} />{' '}
-          <span className="text-lime"><DistortText text="Design" strength={0.7} /></span>{' '}
+          <span className="text-lime"><DistortText text="Innovation" strength={0.7} /></span>{' '}
           <DistortText text="Meets" strength={0.7} />{' '}
           <span className="text-lime"><DistortText text="Code" strength={0.7} /></span>
           <DistortText text="." strength={0.7} />

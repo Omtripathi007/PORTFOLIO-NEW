@@ -159,7 +159,7 @@ export default function Contact() {
 
             <p className="mt-6 text-base md:text-lg leading-relaxed text-white/60 max-w-xl">
               Have a project in mind, a question, or simply want to talk about
-              web dev or design? I&apos;d love to hear from you.
+              innovation ideas? I&apos;d love to hear from you.
             </p>
 
             {/* Contact info */}
